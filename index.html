@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Books & Beans</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+	<!-- Reader -->
+	
+	 	 
+        
+             
+        <style type="text/css">
+
+          body {
+            overflow: hidden;
+          }
+
+          #main {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+          }
+
+          #area {
+            width: 80%;
+            height: 80%;
+            margin: 5% auto;
+            max-width: 1250px;
+          }
+
+          #area iframe {
+            border: none;
+          }
+
+          #prev {
+            left: 40px;
+          }
+
+          #next {
+            right: 40px;
+          }
+
+          .arrow {
+            position: absolute;
+            top: 50%;
+            margin-top: -32px;
+            font-size: 64px;
+            color: #E2E2E2;
+            font-family: arial, sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+          }
+
+          .arrow:hover {
+            color: #777;
+          }
+           
+          .arrow:active {
+            color: #000;
+          }
+        </style>
+        
+        
+
+
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
+    <script type="text/javascript" src="js/reader/js/reader.min.js"></script>
+
+	<script src="reader/js/epub.min.js"></script>
+    <script src="js/libs/zip.min.js"></script>      
+      
+	 <script>
+            "use strict";
+            
+            var Book = ePub("/reader/moby-dick/");
+            
+        </script>
+
+          	
+
+
+    <script type="text/javascript">
+      
+		
+
+
+       jQuery(window).ready(function(){
+            jQuery("#einchecken").click(geolocation_starten);
+            jQuery("#ckread").click(check_session);
+        
+        
+        
+        });
+
+	   function check_session() {
+            
+            alert('checked');
+            
+        }
+
+		
+
+        function geolocation_starten() {
+            navigator.geolocation.getCurrentPosition(geolocation_action, errors_action);
+        }
+
+
+        function errors_action(error) {
+            switch(error.code){
+                case error.PERMISSION_DENIED: alert("Der Nutzer m&ouml;chte keine Daten teilen.");break;
+                case error.POSITION_UNAVAILABLE: alert("Die Geodaten sind nicht erreichbar.");break;
+                case error.PERMISSION_DENIED: alert("Timeout erhalten");break;
+                default: alert ("Unbekannter Error");break;
+            }
+        }
+
+
+
+        function geolocation_action(position){
+	 		$.getJSON('http://roundle.local/api/scheme/id/41/param/49.941993,8.081831/format/json', function(data) {
+              var article = '';
+              
+ 	    	   	$.each(data.roundle2roundle, function(key, val) {
+        			 article += '<div> Der Artikel '+ val['name'] +' befindet sich in'+ position.coords.latitude +' und in ' + position.coords.longitude + '</div>';
+					$('#showreader').prepend(article);	
+ 				});
+			});
+        }
+      
+      
+      
+    </script>
+
+
+
+  </head>
+  <body>
+  	
+		
+  	
+  	
+  	
+  	
+  	
+      <div data-role="page" id="startseite">
+       
+          <div data-role="header" data-position="fixed">
+              <h1>MyStandort</h1>
+          </div>
+     
+          <div data-role="content" id="showreader">
+              <p>Hier k&ouml;nnen sie ihren Standort einchecken. Viel Spa&szlig; dabei !</p>
+          </div>
+     
+          <div data-role="footer" data-position="fixed">
+              <div data-role="navbar">
+                  <ul>
+                      <li><a href="#startseite" class="ui-btn-active" id="einchecken">Einchecken</a></li>
+                      <li><a href="#reader" class="ui-btn" id="reader">Reader</a></li>    </ul>
+              </div>
+          </div>
+      </div>
+
+
+
+
+<!-- Reader -->
+
+<div data-role="page" id="reader">
+			
+			 <div data-role="header" data-position="fixed">
+              <h1>Reader</h1>
+          </div>
+     
+			
+		 <div id="main">
+          <div id="prev" onclick="Book.prevPage();" class="arrow" id="ckread">rw</div>
+          <div id="area"></div>
+          <div id="next" onclick="Book.nextPage();"class="arrow" id="ckread">ff</div>
+        </div>
+        
+        <a href="#" id="ckread">soso</a>
+			
+			
+			 <script>
+            
+            Book.renderTo("area");
+
+         </script>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<div data-role="footer" data-position="fixed">
+              <div data-role="navbar">
+                  <ul>
+                      <li><a href="#startseite" class="ui-btn-active" id="einchecken">Einchecken</a></li>
+                      <li><a data-role="button" data-theme="a" data-transition="fade" href="reader/index.html" data-prefetch>Reader</a></li>
+                  </ul>
+              </div>
+          </div>
+			
+			
+			
+			
+			
+		</div> 	
+  	
+  	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
